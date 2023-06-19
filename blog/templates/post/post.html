@@ -1,0 +1,25 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<article class="media content-section">
+    <div class="media-body">
+        <h2><a class="article-title">{{ post.title }}</a></h2>
+        <p class="article-content">{{ post.content }}</p>
+    </div>
+</article>
+<article class="media content-section">
+    <div class="media-body">
+        {% for comment in comments %}
+        <p class="article-content"> {{ comment.author }} - {{comment.content }}</p>
+        {% endfor %}
+        <div class="media-body">
+        {% if user.is_authenticated %}
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ comment_form|crispy }}
+                <input type="submit" class="btn btn-success" value="Отправить" name="comment">
+            </form>
+        {% endif %}
+    </div>
+</article>
+{% endblock content %}
